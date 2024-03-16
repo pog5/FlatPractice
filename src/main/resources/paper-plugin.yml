@@ -1,0 +1,8 @@
+name: FlatPractice
+version: '${version}'
+main: me.pog5.flatpractice.FlatPractice
+api-version: '1.20'
+load: STARTUP
+authors: [pog5, jwtvul (pandqxyz)]
+description: Plugin for Crystal PvP on bedrock flatworlds
+website: https://github.com/pog5/flatpractice
