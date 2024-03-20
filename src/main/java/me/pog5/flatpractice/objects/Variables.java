@@ -15,6 +15,7 @@ public class Variables {
     public static Location lobbySpawn;
     /// Combat
     public static List<String> deathMessages;
+    public static List<String> deathTitles;
 
     public Variables(FlatPractice plugin) {
         this.plugin = plugin;
@@ -35,14 +36,16 @@ public class Variables {
         deathMessages = config.getStringList("deathMessages");
         if (deathMessages.isEmpty())
             deathMessages = List.of("<green><attacker> <gray>was killed by <red><attacker> <dark_gray>(<red><attackerhealth> ♥<dark_gray>)");
-
+        deathTitles = config.getStringList("deathTitles");
+        if (deathTitles.isEmpty())
+            deathTitles = List.of("<red><bold>EZ", "<red><bold>GG", "<red><bold>L");
     }
     private void saveConfigYML() {
         // World
         config.set("lobbyspawn", lobbySpawn);
         // Combat
         config.set("deathMessages", deathMessages);
-
+        config.set("deathTitles", deathTitles);
 
         plugin.saveConfig();
         plugin.reloadConfig();
@@ -51,5 +54,8 @@ public class Variables {
 
     public static String getRandomDeathMessage() {
         return deathMessages.get(new Random().nextInt(deathMessages.size()));
+    }
+    public static String getRandomDeathTitle() {
+        return deathTitles.get(new Random().nextInt(deathTitles.size()));
     }
 }
