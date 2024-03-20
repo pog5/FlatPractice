@@ -31,7 +31,7 @@ public class DeathListener implements Listener {
 
         final User victimUser = plugin.getUserManager().getUserFromUUID(victim.getUniqueId());
         final User attackerUser = plugin.getUserManager().getUserFromUUID(attacker.getUniqueId());
-        attackerUser.kills++;
-        victimUser.deaths++;
+        attackerUser.addKill(victimUser);
+        victimUser.addDeath(attackerUser);
     }
 }

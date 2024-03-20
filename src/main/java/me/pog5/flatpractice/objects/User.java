@@ -13,6 +13,17 @@ public class User {
     // Statistics
     public char kills, deaths = 0;
     public float killDeathRatio = 0;
+    public char killstreak = 0;
+    public char bestKillstreak = 0;
+    public void recalcStats() {
+        if (deaths == 0)
+            killDeathRatio = kills;
+        else
+            killDeathRatio = (float) kills / deaths;
+
+        if (bestKillstreak < killstreak)
+            bestKillstreak = killstreak;
+    }
     // Kits
     public WeakHashMap<String, PlayerInventory> kits;
     public String defaultKit;
@@ -32,8 +43,14 @@ public class User {
     public String getName() {
         return this.player.getName();
     }
-
-    public void killedPlayer(Player target) {
-
+    public void addKill(User killed) {
+        this.kills++;
+        this.killstreak++;
+        recalcStats();
+    }
+    public void addDeath(User killer) {
+        this.deaths++;
+        this.killstreak = 0;
+        recalcStats();
     }
 }
