@@ -9,11 +9,14 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Objects;
 
@@ -36,16 +39,20 @@ public class DeathListener implements Listener {
                 Placeholder.unparsed("victim", victimUser.getName()),
                 Placeholder.unparsed("attackerhealth", String.valueOf(attacker.getHealth()))
         );
-        final Location deathPos = victim.getLocation();
+        final Location deathPos = victim.getLocation().clone();
+        final PlayerInventory victimInventory = victim.getInventory();
 
+        event.setCancelled(true);
         attackerUser.addKill(victimUser);
         victimUser.addDeath(attackerUser);
-        for (Player npc : deathPos.getNearbyPlayers(100, 250)) {
+        victimUser.isDead = true;
+
+        for (Player npc : deathPos.getNearbyPlayers(100, 250))
             if (plugin.getUserManager().getUser(npc.getUniqueId()).deathMessagesEnabled)
                 npc.sendMessage(deathMessage);
-        }
-        event.setCancelled(true);
-        victimUser.isDead = true;
+        for (ItemStack item : victimInventory.getContents())
+            if (item != null && !item.containsEnchantment(Enchantment.VANISHING_CURSE))
+                deathPos.getWorld().dropItemNaturally(deathPos, item.clone());
         victim.setGameMode(GameMode.SPECTATOR);
         victim.setLastDeathLocation(deathPos);
         try {

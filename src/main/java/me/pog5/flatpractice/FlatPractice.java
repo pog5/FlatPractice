@@ -1,5 +1,6 @@
 package me.pog5.flatpractice;
 
+import me.pog5.flatpractice.commands.SuicideCommand;
 import me.pog5.flatpractice.managers.UserManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -15,15 +16,17 @@ public final class FlatPractice extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        plugin = this;
-        userManager = new UserManager(plugin);
+        this.plugin = this;
+        userManager = new UserManager(getPlugin());
         getServer().getOnlinePlayers().forEach(p -> userManager.addPlayerToUsers(p));
         userManager.refreshUsers();
+
+        getServer().getCommandMap().register("flatpractice", new SuicideCommand(getPlugin()));
     }
 
     @Override
     public void onDisable() {
-        plugin = null;
+        this.plugin = null;
     }
 
 }
