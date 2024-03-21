@@ -15,6 +15,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import java.util.Objects;
+
 public class DeathListener implements Listener {
     private final FlatPractice plugin;
     public DeathListener(FlatPractice plugin) {
@@ -46,7 +48,11 @@ public class DeathListener implements Listener {
         victimUser.isDead = true;
         victim.setGameMode(GameMode.SPECTATOR);
         victim.setLastDeathLocation(deathPos);
-        victim.setHealth(victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        try {
+            victim.setHealth(Objects.requireNonNull(victim.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+        } catch (NullPointerException ignored) {
+            victim.setHealth(20);
+        }
         victim.setFoodLevel(20);
         victim.getInventory().clear();
         victim.updateInventory();
