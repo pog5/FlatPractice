@@ -15,9 +15,9 @@ public class SuicideCommand extends BukkitCommand {
     }
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-         if (!(sender instanceof Player) || !sender.hasPermission("flatpractice.command.suicide")) return false;
-         final User senderUser = plugin.getUserManager().getUser(((Player) sender).getUniqueId());
-         ((Player) sender).setHealth(0.0D);
-        return false;
+        if (!(sender instanceof Player) || !sender.hasPermission("flatpractice.command.suicide")) return false;
+        final User senderUser = plugin.getUserManager().getUser(((Player) sender).getUniqueId());
+        ((Player) sender).setHealth(0.0D);
+        return true;
     }
 }

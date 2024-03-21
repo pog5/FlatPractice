@@ -26,6 +26,8 @@ public class User {
     public boolean deathMessagesEnabled = true;
     public boolean deathTitlesEnabled = true;
     public boolean scoreboardEnabled = true;
+    // Combat
+    public Player lastAttacker;
     public User(Player player) {
         this.player = player;
     }
