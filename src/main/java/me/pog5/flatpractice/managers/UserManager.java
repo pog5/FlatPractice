@@ -9,6 +9,12 @@ import java.util.*;
 public class UserManager {
     private final FlatPractice plugin;
     private WeakHashMap<Player, Boolean> userQueue; // Player, then if it should remove
+    public HashMap<UUID, User> users;
+    public WeakHashMap<String, User> usersByName;
+    public UserManager(FlatPractice plugin) {
+        this.plugin = plugin;
+    }
+
     public void addPlayerToUsers(Player player) {
         if (!userQueue.containsKey(player)) userQueue.put(player, false);
     }
@@ -20,15 +26,12 @@ public class UserManager {
         if (usersByName.containsValue(user))
             usersByName.remove(name);
     }
-    public HashMap<UUID, User> users;
-    public User getUserFromUUID(UUID uuid) {
-        return users.getOrDefault(uuid, null);
+    public User getUser(UUID uuid) {
+        return users.get(uuid);
     }
-    public WeakHashMap<String, User> usersByName;
-    public UserManager(FlatPractice plugin) {
-        this.plugin = plugin;
+    public User getUser(String name) {
+        return usersByName.get(name);
     }
-
     public void refreshUsers() {
         // Process userQueue to add the new pending users to the users list
         for (Iterator<Map.Entry<Player, Boolean>> iterator = userQueue.entrySet().iterator(); iterator.hasNext(); ) {

@@ -27,8 +27,8 @@ public class DeathListener implements Listener {
         final Player victim = event.getEntity();
         if (victim.getKiller() == null) return;
         final Player attacker = victim.getKiller();
-        final User victimUser = plugin.getUserManager().getUserFromUUID(victim.getUniqueId());
-        final User attackerUser = plugin.getUserManager().getUserFromUUID(attacker.getUniqueId());
+        final User victimUser = plugin.getUserManager().getUser(victim.getUniqueId());
+        final User attackerUser = plugin.getUserManager().getUser(attacker.getUniqueId());
         final Component deathMessage = MiniMessage.miniMessage().deserialize(attackerUser.preferredKillMessage,
                 Placeholder.unparsed("attacker", attackerUser.getName()),
                 Placeholder.unparsed("victim", victimUser.getName()),
@@ -39,12 +39,12 @@ public class DeathListener implements Listener {
         attackerUser.addKill(victimUser);
         victimUser.addDeath(attackerUser);
         for (Player npc : deathPos.getNearbyPlayers(100, 250)) {
-            if (plugin.getUserManager().getUserFromUUID(npc.getUniqueId()).deathMessagesEnabled)
+            if (plugin.getUserManager().getUser(npc.getUniqueId()).deathMessagesEnabled)
                 npc.sendMessage(deathMessage);
         }
         event.setCancelled(true);
         victimUser.isDead = true;
-        victim.setGameMode(GameMode.ADVENTURE);
+        victim.setGameMode(GameMode.SPECTATOR);
         victim.setLastDeathLocation(deathPos);
         victim.setHealth(victim.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
         victim.setFoodLevel(20);

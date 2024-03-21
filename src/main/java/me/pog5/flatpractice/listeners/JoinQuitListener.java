@@ -18,7 +18,7 @@ public class JoinQuitListener implements Listener {
     }
     @EventHandler(priority = EventPriority.HIGH)
     public void onQuit(PlayerJoinEvent event) {
-        final User targetUser = plugin.getUserManager().getUserFromUUID(event.getPlayer().getUniqueId());
+        final User targetUser = plugin.getUserManager().getUser(event.getPlayer().getUniqueId());
         if (targetUser == null)
             return;
         plugin.getUserManager().removeUser(targetUser);
