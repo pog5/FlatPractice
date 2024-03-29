@@ -27,7 +27,9 @@ public class User {
     public boolean deathTitlesEnabled = true;
     public boolean scoreboardEnabled = true;
     // Combat
+    public WeakHashMap<Player, Integer> rampages;
     public Player lastAttacker;
+
     public User(Player player) {
         this.player = player;
     }
