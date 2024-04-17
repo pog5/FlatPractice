@@ -10,7 +10,9 @@ import java.util.Random;
 public class Variables {
     private final FlatPractice plugin;
     FileConfiguration config;
-
+    
+    /// Database
+    public static String databaseType;
     /// World
     public static Location lobbySpawn;
     /// Combat
@@ -29,6 +31,8 @@ public class Variables {
     }
 
     private void loadConfigYML() {
+        // Database
+        databaseType = config.getString("databaseType");
         // World
         lobbySpawn = config.getLocation("lobbyspawn",
                 new Location(plugin.getServer().getWorlds().get(0), 0, 70, 0, 0, 0));
